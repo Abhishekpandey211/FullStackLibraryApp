@@ -5,8 +5,9 @@ Technologies used :
 Front-end:-
 
 1. React
-2. TypseScript
-3. Bootatrap
+2. JavaScript
+3. TypseScript
+4. Bootatrap
 
 Back-end:-
 
@@ -93,6 +94,18 @@ onError: Handles login errors.
 
 Makes LoginWidget available for use in other parts of the application.
 
+Work FLow Of Above Code -> 
+
+Component → useOktaAuth checks the user's authentication state.
+Loading State → If authState is null, show the spinner (SpinnerLoading).
+Authenticated?
+Yes → Redirect to the home page ('/').
+No → Show the OktaSignInWidget for login.
+Login Process:
+Success → onSuccess processes tokens and redirects.
+Error → onError logs the error.
+
+
 
 
 OktaSigninWidget.jsx
@@ -130,35 +143,37 @@ export default OktaSignInWidget;
 
 
 explanation of code -> 
+useeffect is used to handle side effect like (fetching data from API,  set up the event listers) etc 
+useref creates a mutable reference (accessing and manipulating DOM elements).
+okta sign widget javascript library used to display the login form 
+css for styling widget 
+okta config setting like client id, issuer  for connecting to your okta account 
 
-Redirect: Used for navigation. It redirects authenticated users to a specified path (e.g., / in this case).
-useOktaAuth: A hook provided by Okta for managing authentication state and interacting with Okta's APIs.
-SpinnerLoading: A reusable component (likely a spinner/loader animation) shown while the app waits for authentication state to load.
-OktaSignInWidget: A custom sign-in widget component that renders the Okta login form.
+ OktaSignInWidget is react functional component that accepts 2 props: 
+ onsuccess : A function to handle successfully login 
+ on error : a "   to handle login error (invalid login).
+ widgetref is a reference varible <div> 
 
+ it checks if the refernce DOM Element is available or not if not it stops the sexection.
+ oktasign is a class and okta congig is a object 
 
-LoginWidget is a functional component that accepts config as a prop. config contains Okta configuration details like client ID, issuer, etc.
+ <div ref={widgetRef}></div> -> e1 specifies the DOM element 
+  widget shows the user successfully login to get the token 
+ if user arise error to catch handles any error during the login 
 
-oktaAuth: An object with methods to manage authentication (e.g., handle login redirects, logout).
-authState: Contains the user's current authentication status (isAuthenticated), whether it's loading, and tokens.
+  remove the okta sign in widget from the DOM and stps the process 
+  onsucces -> for successfully login , error-> error during the login
 
-Called when the user successfully signs in.
-handleLoginRedirect: Stores tokens and redirects the user after login.
+okta sign widget is loaded inside this div making the login form visible to users
+export default means oktasignwidget is available to use other parts in the app 
 
-Called when there's an error during login.
-Logs the error details for debugging.
-
-
-If authState is null or still loading, the app shows the spinner (SpinnerLoading) to indicate the user’s authentication status is being fetched.
-
-Authenticated: If the user is logged in (authState.isAuthenticated is true), they are redirected to the root path (/).
-Not Authenticated: If the user is not logged in, the OktaSignInWidget is rendered, allowing the user to log in. This widget uses:
-config: Contains settings for the widget.
-onSuccess: Handles successful login.
-onError: Handles login errors.
-
-
-Makes LoginWidget available for use in other parts of the application\
+Working of the Code:
+When the OktaSignInWidget component is mounted, the useEffect hook runs.
+The widgetRef is checked to ensure that the div where the widget will be rendered is available.
+The OktaSignIn widget is instantiated with the oktaConfig object, which contains essential details for connecting to your Okta instance.
+The showSignInToGetTokens method is called, rendering the Okta sign-in form inside the div referenced by widgetRef.
+If the user logs in successfully, the onSuccess function is triggered with the authentication tokens; if there’s an error (like invalid login), the onError function is triggered.
+When the component is unmounted, the widget.remove() method cleans up by removing the Okta widget from the DOM.
 
 
 Layouts-> Bookcheckoutpage-> BookCheckOutPage.tsx
