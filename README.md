@@ -526,6 +526,8 @@ setIsLoadingBookCheckedOut updates this loading state when the checking process 
 
 const bookId = (window.location.pathname).split('/')[2];  -?
 
+// useeffetc of fetch Book 
+
 useeffect hook with arrow function is fetching the book data from API
 declare a fetchbook asynchronous function  because data fetching requires waiting for the API response.
 constructs the API endpoint URL (book id is 1,2,3 dynamically inserted).
@@ -535,3 +537,49 @@ the server reply(called the response ) is stored the response variable
 check if the response was unsuccessful (eg.  400 or 500 error).
 if the response is not ok then throw an error with the message "Something went wrong!"
 converts the servers reponse data into JSON  and await ensures the code waits for the conversion 
+
+// fetch book review 
+
+fetch book reviews is a asunchronous function with useeffect 
+review url passes the url fetch from the API
+fetch function is used is used to fetch the HTTP reuest to the base url 
+await keyword is used to wait for the server to respond before before moving to the next line 
+the server reply(called the response ) is stored the response variable.
+check if the response was unsuccessful (eg.  400 or 500 error).
+if the response is not ok then throw an error with the message "Something went wrong!"
+converts the servers reponse data into JSON  and await ensures the code waits for the conversion 
+line extract the reviews from the response JSON. _embedded is a typically structure in restful ApI reviews hold the array object of review data 
+initialize the empty array loaded reviews hold the object of reviewmodel.
+initialize the weighted startreviews to 0.
+
+ for each loop iterate over each key in responsedata and represent the properties 
+ push the object  properties in loadedreview 
+id property is passes the in responsedata key
+useremail property is passes the in responsedata key
+date property is passes in response data key
+raring property is passes in response data key
+book_id property is passes in response data key
+ reviewDescription property is passes in response data key
+
+this line add the rating of the current review (responsedata[key].rating) to the weighted reviews variables
+this checks if loaded review is not null means available 
+this line calculate the avarage star rating and rounds it to the nearest half star with one decimal place 
+tofixed(1)-> format the result have one decimal place
+math.round-> round the result to the nearest whole number
+update the settotalstar with this number 
+number(round) converts that string into a number 
+This saves the fetched reviews (loadedReviews) into the reviews state so they can be shown on the page.
+This tells the app that loading is done by setting the isLoadingReview state to false, so loading indicators (like spinners) can disappear
+fetchreviewbook function catch the error the user trouble to sign invalid it shows error 
+this stop the loading spinner.
+this allow you to show an error message to the user 
+this part means the code will run again whernever isreviewleft changes
+if a user leaves a review the review will be fetched again 
+
+
+
+ 
+
+
+
+
