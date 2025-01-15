@@ -526,7 +526,7 @@ setIsLoadingBookCheckedOut updates this loading state when the checking process 
 
 const bookId = (window.location.pathname).split('/')[2];  -?
 
-// useeffetc of fetch Book 
+// USEEFFECT FOR FETCH BOOK 
 
 useeffect hook with arrow function is fetching the book data from API
 declare a fetchbook asynchronous function  because data fetching requires waiting for the API response.
@@ -538,7 +538,7 @@ check if the response was unsuccessful (eg.  400 or 500 error).
 if the response is not ok then throw an error with the message "Something went wrong!"
 converts the servers reponse data into JSON  and await ensures the code waits for the conversion 
 
-// fetch book review 
+// USEEFFECT FOR FETCH BOOK REVIEW
 
 fetch book reviews is a asunchronous function with useeffect 
 review url passes the url fetch from the API
@@ -575,6 +575,41 @@ this stop the loading spinner.
 this allow you to show an error message to the user 
 this part means the code will run again whernever isreviewleft changes
 if a user leaves a review the review will be fetched again 
+
+USEEFFECT FOR FETCH USER REVIEW BOOK
+
+useeffect hook 
+asynchronus function this function will fetch the users review for a book
+if the suthstate is exists and if the user is authenticated the code run
+url for API request is constructed it uses the bookid and fetch the review 
+it defines to set the requestoptions 
+it specifies the HTTP method GET request, meaning the request retrieve the data from the server 
+headers is the object is a collection of HTTP headers 
+this is an authorization headers used for authentication the value is a bearer token 
+ which is type of token used in authe tication . It allow the server to identify the user making the request. 
+this is an Http headers used to specify the type of data being sent to the server.
+application json is the value of content type header that the data sent is in the Json format. 
+
+const userReview = await fetch(url, requestOptions); // This waits for the server's response to be pased the data as JSON and stores the result in userReviewResponseJson.
+This checks if the userReview response is successful or not. The userReview.ok property is true
+ if user is false then show the error 
+if the response is successful. this line pass the JSON data returned by the server 
+after passing the response this line update the state setisreviewleft with the data from the server (the user is review for the book).
+This line sets the state isLoadingUserReview to false, which indicates that the process of fetching the review has finished
+ This calls the fetchuserreview function and used .catch to handle any error that may occur during the execution of the function 
+inside thecatch block that ensures that even if an error occur the loading state is set to false 
+if an error occur this line sets the httperror state with the error message 
+If authState changes (for example, when the user logs in or out, or when the authentication status changes), the useEffect hook will run again.
+
+USEEFFECT FOR FETCH USER CURRENT LOANS COUNT 
+
+
+
+
+
+
+
+
 
 
 
