@@ -610,10 +610,331 @@ USEEFFECT FOR FETCH USER CURRENT LOANS COUNT
 
 
 
+CheckoutAndReviewBox.tsx
+
+import { Link } from "react-router-dom"; 
+import BookModel from "../../models/BookModel";
+import { LeaveAReview } from "../Utils/LeaveAReview";
+
+export const CheckoutAndReviewBox: React.FC<{ book: BookModel | undefined, mobile: boolean, 
+    currentLoansCount: number, isAuthenticated: any, isCheckedOut: boolean, 
+    checkoutBook: any, isReviewLeft: boolean, submitReview: any }> = (props) => {
+   
+    function buttonRender() {
+        if (props.isAuthenticated) {
+            if (!props.isCheckedOut && props.currentLoansCount < 5) {
+                return (<button onClick={() => props.checkoutBook()} className='btn btn-success btn-lg'>Checkout</button>)
+            } else if (props.isCheckedOut) {
+                return (<p><b>Book checked out. Enjoy!</b></p>)
+            } else if (!props.isCheckedOut) {
+                return (<p className='text-danger'>Too many books checked out.</p>)
+            }
+        }
+        return (<Link to={'/login'} className='btn btn-success btn-lg'>Sign in</Link>)
+    }
+    
+    function reviewRender() {
+        if (props.isAuthenticated && !props.isReviewLeft) {
+            return(
+            <p>
+                <LeaveAReview submitReview={props.submitReview}/>
+            </p>
+            )
+        } else if (props.isAuthenticated && props.isReviewLeft) {
+            return(
+            <p>
+                <b>Thank you for your review!</b>
+            </p>
+            )
+        }
+        return (
+        <div>
+            <hr/>
+            <p>Sign in to be able to leave a review.</p>
+        </div>
+        )
+    }
+    
+    return (
+        <div className={props.mobile ? 'card d-flex mt-5' : 'card col-3 container d-flex mb-5'}>
+            <div className='card-body container'>
+                <div className='mt-3'>
+                    <p>
+                        <b>{props.currentLoansCount}/5 </b>
+                        books checked out
+                    </p>
+                    <hr />
+                    {props.book && props.book.copiesAvailable && props.book.copiesAvailable > 0 ?
+                        <h4 className='text-success'>
+                            Available
+                        </h4>
+                        :
+                        <h4 className='text-danger'>
+                            Wait List
+                        </h4>
+                    }
+                    <div className='row'>
+                        <p className='col-6 lead'>
+                            <b>{props.book?.copies} </b>
+                            copies
+                        </p>
+                        <p className='col-6 lead'>
+                            <b>{props.book?.copiesAvailable} </b>
+                            available
+                        </p>
+                    </div>
+                </div>
+                {buttonRender()}
+                <hr />
+                <p className='mt-3'>
+                    This number can change until placing order has been complete.
+                </p>
+                {reviewRender()}
+            </div>
+        </div>
+    );
+}
+
+explanation of above code -> 
+
+link used for navigation to the login page 
+typescript book structure 
+a component that allow users to submit review 
+book: The selected book (or undefined if not loaded).
+mobile: A boolean to adjust the layout for mobile devices.
+currentLoansCount: Number of books the user has checked out.
+isAuthenticated: Indicates if the user is logged in.
+isCheckedOut: Indicates if this book is already checked out by the user.
+checkoutBook: Function to checkout the book.
+isReviewLeft: Indicates if the user has already left a review.
+submitReview: Function to submit a review.
+
+If the user is logged in:
+If the book is not checked out and the user has checked out fewer than 5 books, show the "Checkout" button.
+If the book is already checked out, show "Book checked out. Enjoy!".
+ If the user has checked out 5 or more books, show "Too many books checked out" in red.
+If the user is not logged in, show a "Sign in" button linking to the login page.
+
+If the user is logged in and hasn't reviewed the book, show the LeaveAReview component.
+If the user is logged in and has already reviewed, show "Thank you for your review!".
+if the user is not logged in, prompt them to sign in to leave a review.
+Layout changes based on the mobile prop for responsive design.
+Displays how many books the user has checked out (e.g., 2/5).
+Shows if the book is Available (in green) or on the Wait List (in red).
+Shows the total copies and available copies of the book.
+Calls buttonRender() to show the correct checkout button or message.
+Calls reviewRender() to handle the review section.
+
+
+Work flow of above code->
+
+If the user is login(authenticated) 
+If the book is not checked out and the user has fewer than 5 checked-out books, a "Checkout" button is shown.
+If the book is already checked out, a message saying "Book checked out. Enjoy!" appears.
+If the user has checked out 5 or more books, it shows "Too many books checked out."
+If the user is not logged in, a "Sign in" button linking to the login page is shown.
+Review Section : If the user is logged in and hasn't left a review, the LeaveAReview component is shown to allow submitting a review.
+If the user has already reviewed the book, a "Thank you for your review!" message is shown.
+If the user is not logged in, a prompt to sign in before leaving a review is displayed.
+Book Availability : The component shows whether the book is Available (if copies are available) or on the Wait List (if no copies are available), along with the number of copies and available copies.
+Responsive Layout : The layout adjusts based on the mobile prop to ensure the design is responsive for both mobile and desktop views.
+
+
+LatestReview.tsx-> 
+
+
+import { Link } from "react-router-dom";  
+import { Review } from "../Utils/Review"; 
+import { ReviewModel } from "../../models/ReviewModel";
+
+
+export const LatestReviews: React.FC<{
+    reviews: ReviewModel[], bookId: number | undefined, mobile: boolean
+}> = (props) => { // Latest review is a functional component 
+
+    return (
+        <div className={props.mobile ? 'mt-3' : 'row mt-5'}>  
+            <div className={props.mobile ? '' : 'col-sm-2 col-md-2'}>
+                <h2>Latest Reviews: </h2>
+            </div>
+
+            <div className='col-sm-10 col-md-10'>
+                {props.reviews.length > 0 ?
+                    <>
+                        {props.reviews.slice(0, 3).map(eachReview => (
+                            <Review review={eachReview} key={eachReview.id}></Review>
+                        ))}
+
+                        <div className='m-3'>
+                            <Link type='button' className='btn main-color btn-md text-white'
+                                to={`/reviewlist/${props.bookId}`}>
+                                Reach all reviews.
+                            </Link>
+                        </div>
+                    </>
+                    :
+                    <div className='m-3'>
+                        <p className='lead'>
+                            Currently there are no reviews for this book
+                        </p>
+                    </div>
+                }
+            </div>
+        </div>
+
+
+explanation of this code->
+
+Link: Used for navigation between pages without refreshing the browser. 
+Review: A component that displays a single review.
+ReviewModel: A TypeScript model that defines the structure of a review (e.g., id, content, author).
+Latest review is a functional component 
+Props received by this component:
+reviews: An array of reviews (ReviewModel[]).
+bookId: The ID of the book (used for navigation).
+mobile: A boolean that checks if the user is on a mobile device (for styling).
+
+If mobile is true, it adds a small top margin (mt-3).
+If not, it uses Bootstrap classes for a larger layout (row mt-5).
+Shows the title "Latest Reviews:".
+If not on mobile, it takes up 2 columns in the grid (col-sm-2).
+It takes the first 3 reviews (slice(0, 3)).
+Each review is passed to the Review component.
+key eachReview.uniquely identifies each review (important for performance).
+Button that navigates to a page showing all reviews for the book.
+The link leads to /reviewlist/{bookId} (e.g., /reviewlist/5).
+
+work flow of this code-> 
+
+Props: It receives reviews (an array of reviews), bookId (used for navigation), and mobile (a boolean for layout adjustments).
+
+Layout:
+
+If mobile is true, it adds a small margin for mobile screens.
+If mobile is false, it uses a larger layout with Bootstrap classes for desktop screens.
+Displaying Reviews:
+
+It shows the title "Latest Reviews:", slices the first 3 reviews, and displays them using the Review component with unique keys for each review.
+Navigation:
+
+It includes a button that links to /reviewlist/{bookId} to view all reviews for the book.
+
+ReviewListPage -> ReviewListPage.tsx
+
+import { useEffect, useState } from 'react';
+import { ReviewModel } from "../../../models/ReviewModel";
+import { Pagination } from '../../Utils/Pagination';
+import { Review } from '../../Utils/Review';
+import { SpinnerLoading } from '../../Utils/SpinnerLoading';
+
+export const ReviewListPage = () => {
+
+    const [reviews, setReviews] = useState<ReviewModel[]>([]);
+    const [isLoading, setIsLoading] = useState(true);
+    const [httpError, setHttpError] = useState(null);
+    
+    // Pagination
+    const [currentPage, setCurrentPage] = useState(1);
+    const [reviewsPerPage] = useState(5);
+    const [totalAmountOfReviews, setTotalAmountOfReviews] = useState(0);
+    const [totalPages, setTotalPages] = useState(0);
+
+    // Book to lookup reviews
+    const bookId = (window.location.pathname).split('/')[2];
+
+    useEffect(() => {
+        const fetchBookReviewsData = async () => {
+
+            const reviewUrl: string = `http://localhost:8080/api/reviews/search/findByBookId?bookId=${bookId}&page=${currentPage - 1}&size=${reviewsPerPage}`;
+
+            const responseReviews = await fetch(reviewUrl);
+
+            if (!responseReviews.ok) {
+                throw new Error('Something went wrong!');
+            }
+
+            const responseJsonReviews = await responseReviews.json();
+
+            const responseData = responseJsonReviews._embedded.reviews;
+
+            setTotalAmountOfReviews(responseJsonReviews.page.totalElements);
+            setTotalPages(responseJsonReviews.page.totalPages);
+
+            const loadedReviews: ReviewModel[] = [];
+
+            for (const key in responseData) {
+                loadedReviews.push({
+                    id: responseData[key].id,
+                    userEmail: responseData[key].userEmail,
+                    date: responseData[key].date,
+                    rating: responseData[key].rating,
+                    book_id: responseData[key].book_id,
+                    reviewDescription: responseData[key].reviewDescription,
+                });
+            }
+
+            setReviews(loadedReviews);
+            setIsLoading(false);
+        };
+        fetchBookReviewsData().catch((error: any) => {
+            setIsLoading(false);
+            setHttpError(error.message);
+        })
+    }, [currentPage]);
+
+    if (isLoading) {
+        return (
+            <SpinnerLoading />
+        )
+    }
+
+    if (httpError) {
+        return (
+            <div className='container m-5'>
+                <p>{httpError}</p>
+            </div>
+        );
+    }
+
+
+    const indexOfLastReview: number = currentPage * reviewsPerPage;
+    const indexOfFirstReview: number = indexOfLastReview - reviewsPerPage;
+
+    let lastItem = reviewsPerPage * currentPage <= totalAmountOfReviews ? 
+            reviewsPerPage * currentPage : totalAmountOfReviews;
+
+    const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
+
+
+    return (
+        <div className="container mt-5">
+            <div>
+                <h3>Comments: ({reviews.length})</h3>
+            </div>
+            <p>
+                {indexOfFirstReview + 1} to {lastItem} of {totalAmountOfReviews} items:
+            </p>
+            <div className="row">
+                {reviews.map(review => (
+                    <Review review={review} key={review.id} />
+                ))}
+            </div>
+
+            {totalPages > 1 && <Pagination currentPage={currentPage} totalPages={totalPages} paginate={paginate} />}
+        </div>
+    );
+}
 
 
 
- 
+
+
+
+
+
+
+
+
 
 
 
