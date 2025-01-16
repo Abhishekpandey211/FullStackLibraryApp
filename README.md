@@ -925,6 +925,94 @@ export const ReviewListPage = () => {
     );
 }
 
+explanation of the code-> 
+
+reviewlistpage with arraw function 
+reviews: Stores fetched review data.
+isLoading: Indicates if data is being loaded (true by default).
+httpError: Captures any errors during data fetching.
+currentPage: Tracks the current page number.
+reviewsPerPage: Number of reviews shown per page (fixed at 5).
+totalAmountOfReviews: Total number of reviews fetched.
+totalPages: Total number of pages available
+
+// Book to lookup reviews
+
+Extracts the book ID from the URL. Example: /books/123 → bookId = 123.
+bookId: The ID of the book for which reviews are being fetched.
+runs the currentpage function 
+Builds the API URL to fetch reviews for a specific book, using pagination.
+purpose sends a get request to the api url(review url) to fetch review. 
+await : waits for the server to rspond before moving to the next line 
+responsereview : stores the servers reponse 
+check if the response status successfully response
+if the response is not okay it throws a message 
+converts the raw response into a JSON Objects 
+Purpose: Accesses the list of reviews in the _embedded object returned by the API.
+responseData: Now holds the array of reviews.
+totalElements: Total number of reviews for the book.
+totalPages: Total number of available pages based on reviewsPerPage.
+State Updates: These values are stored in state for pagination control.
+Updates the total amount of reviews and total pages based on the API response.
+initailize the empty array loadedreviews to store the review data 
+Loop: Iterates over each review in responseData.
+Push: Formats the data into ReviewModel objects and adds them to loadedReviews.
+Fields Included:
+id: Review ID
+userEmail: Email of the user who wrote the review
+date: Date when the review was submitted
+rating: Rating given to the book
+book_id: ID of the book being reviewed
+reviewDescription: Text content of the review
+setreviews  show the new loadedreviews into the review state
+hide the loading spinner b/c the data has been succesfully fetched 
+Error Catching: If anything goes wrong in fetchBookReviewsData, this .catch() block runs.
+setIsLoading(false): Stops the loading spinner.
+setHttpError(error.message): Saves the error message in httpError to inform the user.
+Dependency: Runs fetchBookReviewsData every time currentPage changes (for pagination).
+Effect: Clicking on a different page in pagination fetches new reviews.
+ shows a loading spinner while fetching the data 
+displays an error message if the data fetching failse.
+reviewsPerPage: The number of reviews to show per page (set to 5).
+f currentPage = 2 and reviewsPerPage = 5: -> 2*5 = 10
+Purpose: Determines the position of the last review on the current page.
+IOLR = 10 RPP = 5 -> 10 -5 = 5 
+Purpose: Finds the position of the first review on the current page
+If the last item (reviewsPerPage * currentPage) is less than or equal to the total reviews, use that value.
+Otherwise, use totalAmountOfReviews to prevent overflow
+Case 1: currentPage = 3, reviewsPerPage = 5, totalAmountOfReviews = 12
+5 * 3 = 15 → Exceeds 12, so lastItem = 12.
+Case 2: currentPage = 2, 5 * 2 = 10 → Within range, so lastItem = 10.
+Purpose: Ensures the UI displays the correct "last item number" without exceeding the total number of reviews.
+Takes in pageNumber and updates currentPage with setCurrentPage.
+Purpose: Updates the currentPage state when the user clicks a pagination button
+Displays the heading "Comments:" followed by the number of reviews currently loaded.
+reviews.length dynamically shows how many reviews are displayed on the page
+Shows the range of reviews currently displayed.
+indexOfFirstReview + 1 → The starting review number on the current page.
+lastItem → The last review number displayed on the current page.
+totalAmountOfReviews → The total number of reviews in the database.
+row: A Bootstrap class for creating a horizontal grid layout.
+reviews.map(): Loops through the reviews array and displays each review.
+<Review review={review} />: Renders each review using the Review component.
+key={review.id}: Provides a unique key (React requires this for performance optimization
+Condition: Only shows the Pagination component if there’s more than 1 page (totalPages > 1).
+Pagination Component: Renders page numbers/buttons for navigation.
+Props Passed:
+currentPage: Current active page.
+totalPages: Total number of pages.
+paginate: Function to change the current page when a user clicks a page button.
+
+
+
+
+
+
+
+
+
+
+
 
 
 
