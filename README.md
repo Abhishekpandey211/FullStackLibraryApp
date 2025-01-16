@@ -1004,6 +1004,45 @@ totalPages: Total number of pages.
 paginate: Function to change the current page when a user clicks a page button.
 
 
+HomePage -> HomePage.tsx
+
+
+import { Carousel } from "./components/Carousel";
+import { ExploreTopBooks } from "./components/ExploreTopBooks";
+import { Heros } from "./components/Heros";
+import { LibraryServices } from "./components/LibraryServices";
+
+export const HomePage = () => {
+    return(
+        <>
+           <ExploreTopBooks/>
+           <Carousel/>
+           <Heros/>
+           <LibraryServices/>
+        </>
+    );
+}
+
+
+explanation of the code-> 
+
+This line imports the Carousel component from the components folder
+This imports the ExploreTopBooks component, which probably shows a list or section for the top books available in the library.
+This imports the Heros component. This could be a section with banners or highlighted content,
+This imports the LibraryServices component, which might explain the different services the library offers (like borrowing, reading rooms, etc.).
+function react component called homepage The export keyword makes the component is available to be used on other APP
+{<ExploreTopBooks/> displays the top books section.
+<Carousel/> displays a rotating slideshow or image carousel.
+<Heros/> shows highlighted content or promotional banners.
+<LibraryServices/> shows the library's services.
+
+HomePage -> components -> Carousel.tsx
+
+
+
+
+
+
 
 
 
