@@ -1235,42 +1235,203 @@ ExploreTopBooks -> is a FC exported for use inother parts of the app
 it return the jsx that describe the structure of the hero section 
 h1 heading shows and p for paragraph 
 
+Heroes.tsx
+
+import { useOktaAuth } from "@okta/okta-react";  
+import { Link } from "react-router-dom";
+
+export const Heros = () => {
+  const { authState } = useOktaAuth();    
+  return (
+    <div>
+      <div className="d-none d-lg-block">
+        <div className="row g-0 mt-5">
+          <div className="col-sm-6 col-md-6">
+            <div className="col-image-left"></div>
+          </div>
+          <div className="col-4 col-md-4 container d-flex justify-content-center align-items-center">
+            <div className="m1-2">
+              <h1>What Have you been reading?</h1>
+              <p className="lead">
+              The library team would love to know what you have been reading.
+              Whether it is to learn a new skill or grow within one,
+              we will be able to provide the top content for you!
+              </p>
+              {authState?.isAuthenticated ?
+               <Link type="button" className="btn main-color btn-lg text-white"
+               to="search">Explore top books</Link> 
+               :
+               <Link className="btn main-color btn-lg text-white" to="/login">
+                Sign Up
+              </Link> 
+
+              }
+              
+            </div>
+          </div>
+        </div>
+        <div className="row g-0">
+          <div
+            className="col-4 col-md-4 container d-flex
+                justify-content-center align-items-center"
+          >
+            <div className="m1-2">
+              <h1>Our Collection is Always Changing!</h1>
+              <p className="lead">
+                Try to check as our daily collection is always changing! we work
+                nonstop to provide the most accurate book selection possible For
+                our Luv 2 code students! We are diligent about our book
+                selection and our book is always going too our priority
+              </p>
+            </div>
+          </div>
+          <div className="col-sm-6 col-md-6">
+            <div className="col-image-right"></div>
+          </div>
+        </div>
+      </div>
+      {/* mobile heros */}
+      <div className="d-lg-none">
+        <div className="container">
+            <div className="m-2">
+                <div className="col-image-left"></div>
+                <div className="mt-2">
+                <h1>What Have you been reading?</h1>
+              <p className="lead">
+                The Library team would love to know What you have been reading
+                whether it is to learn new skills or grow within one, We will be
+                able to provide the top content for you
+              </p>
+              {authState?.isAuthenticated ?
+              <Link type="button" className="btn main-color btn-lg text-white"
+              to="search">Explore Top Books</Link>
+              :
+              <Link className="btn main-color btn-lg text-white" to="/login">
+              Sign Up
+            </Link>
+
+              }
+          
+                </div>
+            </div>
+            <div className="m-2">
+                <div className="col-image-right"></div>
+                <div className="mt-2">
+                <h1>Our Collection is Always Changing!</h1>
+              <p className="lead">
+                Try to check as our daily collection is always changing! we work
+                nonstop to provide the most accurate book selection possible For
+                our Luv 2 code students! We are diligent about our book
+                selection and our book selection and our book is always going
+                too our priority
+              </p>
+                </div>
+            </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+Explanation of this code ->
+
+depencies it used to access authenticated user 
+Link component is to create  navigation link for routing with in the app
+The Heroes component is used another part in the app
+authstate is check for authenticated user / check the status 
+It shows for the Dekstop view for larger scrren and small screen for mobile views 
+If user is authenticated user is true then it shows a button "Explore Top Book" and if the user is not login It shows a "Sign Up" button
 
 
+LibraryServices.tsx->
 
+import { useOktaAuth } from "@okta/okta-react";
+import { Link } from "react-router-dom";
 
+export const LibraryServices = () => {
+    const { authState} = useOktaAuth();
+    return(
+        <div className="container my-5">
+            <div className="row p-4 align-items-center border shadow-lg">
+                <div className="col-lg-7 p-3">
+                    <h1 className="display-4 fw-bold">
+                       We Can't What are you looking for?
+                    </h1>
+                    <p className="lead">
+                        If you cannot find what are looking for,
+                        send our Library admin's a personal message!
+                    </p>
+                    <div className="d-grid gap-2 justify-content-md-start mb-4 mb-lg-3">
+                        {authState?.isAuthenticated ? 
+                        <Link to="/messages" type="button" className="btn main-color btn-lg px-4 me-md-2 fw-bold text-white">
+                            Library Services
+                            </Link>
+                            :
 
+                             <Link className="btn main-color btn-lg text-white" to="/login">
+                            Sign Up
+                            </Link>
 
+                        }
+                    </div>
+                </div>
+                <div className="col-lg-4 offset-lg-1 shadow-lg lost-image"></div>
+            </div>
+        </div>
+    );
+}
 
+explanation of the code-> 
 
+USeOkta Auth : A hook is provide authentication details about the current user 
+Link : A Component that create a link to navigate b/w pages. 
+USeoktaAuth : Retrieves the current authentication state (eg., is the user login or logout)
+authState?.isAuthenticated: This checks whether the user is authenticated(login in).
+if the user is successfully login they see the "Library Services" button.
+if not login they see the "Sign Up" button.
 
+ReturnBook.tsx-> 
 
+import React from "react";
+import BookModel from "../../../models/BookModel";
+import { Link } from "react-router-dom";
 
+export const ReturnBook: React.FC<{book: BookModel}> = (props) => {
+    return (
+        <div className='col-xs-6 col-sm-6 col-md-4 col-lg-3 mb-3'>
+            <div className='text-center'>
+                {props.book.img?
+                    <img
+                        src={props.book.img}
+                        width='151'
+                        height='233'
+                        alt="book"
+                    />
+                    :
+                    <img
+                        src={require('./../../../Images/BooksImages/book-luv2code-1000.png')}
+                        width='151'
+                        height='233'
+                        alt="book"
+                  />
+                }
+                
+                <h6 className='mt-2'>{props.book.title}</h6>
+                <p>{props.book.author}</p>
+                <Link className='btn main-color text-white' to={`checkout/${props.book.id}`}>Reserve</Link>
+            </div>
+        </div>
+    );
+};
 
+explanation the code -> 
 
+React : This line imports the react library, which is essential for creating react component. It allow you to use (JSX)
+BookModel : BookModel is likely a typescript interface or class that define the structure of the BookModel
+Link : is used to navigate a different Pages in a react Apllication without reloading the page 
+export : This line declare a FC (ReturnBook).
+Takes a sinlge props : an Object type of BookModel
+And Also can be used to another part of the application 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+ManageLibraryPage -> ManageLibraryPage.tsx
 
