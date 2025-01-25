@@ -1435,3 +1435,108 @@ And Also can be used to another part of the application
 
 ManageLibraryPage -> ManageLibraryPage.tsx
 
+import { useOktaAuth } from "@okta/okta-react"
+import { useState } from "react";
+import { Redirect } from "react-router-dom";
+import { AdminMessages } from "./components/AdminMessages";
+import { AddNewBook } from "./components/AddNewBook";
+import { ChangeQuantityOfBooks } from "./components/ChangeQuantityOfBooks";
+
+export const ManageLibraryPage = () => {
+
+    const { authState } = useOktaAuth();
+
+    const [changeQuantityOfBooksClick, setChangeQuantityOfBooksClick] = useState(false);
+    const [messagesClick, setMessagesClick] = useState(false);
+
+    function addBookClickFunction() {
+        setChangeQuantityOfBooksClick(false);
+        setMessagesClick(false);
+    }
+
+    function changeQuantityOfBooksClickFunction(){
+        setChangeQuantityOfBooksClick(true);
+        setMessagesClick(false);
+    }
+
+    function messagesClickFucntion(){
+        setChangeQuantityOfBooksClick(false);
+        setMessagesClick(true);
+    }
+
+    if(authState?.accessToken?.claims.userType === undefined){
+        return <Redirect to='/home'/>
+    }
+
+    return(
+        <div className="container">
+            <div className="mt-5">
+                <h3>Manage Library</h3>
+                <nav>
+                    <div className="nav nav-tabs" id="nav-tabs" role="tablist">
+                        <button onClick={addBookClickFunction} className="nav-link active" id="nav-add-book-tab" data-bs-toggle="tab"
+                            data-bs-target="#nav-add-book" type="button" role="tab" aria-controls="nav-add-book"
+                            aria-selected="false">
+                            Add new book
+                        </button>
+                        <button onClick={changeQuantityOfBooksClickFunction} className="nav-link" id="nav-quantity-tab" data-bs-toggle="tab"
+                            data-bs-target="#nav-quantity" type="button" role="tab" aria-controls="nav-quantity"
+                            aria-selected="true">
+                           Change Quantity
+                        </button>
+                        <button onClick={messagesClickFucntion} className="nav-link" id="nav-messages-tab" data-bs-toggle="tab"
+                            data-bs-target="#nav-messages" type="button" role="tab" aria-controls="nav-messages"
+                            aria-selected="false">
+                            Messages
+                        </button>
+                    </div>
+                </nav>
+                <div className="tab-content" id="nav-tabContent">
+                    <div className="tab-pane fade show active" id="nav-add-book" role="tabpanel"
+                       aria-labelledby="nav-add-book-tab">
+                       <AddNewBook/>
+                    </div>
+                    <div className="tab-pane fade" id="nav-quantity" role="tabpanel" aria-labelledby="nav-quantity-tab">
+                       {changeQuantityOfBooksClick ? <ChangeQuantityOfBooks/> : <></>}
+                    </div>
+                    <div className="tab-pane fade" id="nav-messages" role="tabpanel" aria-labelledby="nav-messages-tab">
+                        {messagesClick ? <AdminMessages/> : <></>}
+                    </div>
+                </div>
+            </div>
+        </div>
+    );
+}
+
+explanation of the code -> 
+Add New Book: Lets admins add new books to the library.
+Change Quantity: Allows admins to adjust the number of copies for existing books.
+Messages: Displays admin messages.
+
+useoktauth to get the users authentication state(authstate). 
+usestate : ChangequnatityofBooksClick -> Tru if the "Change Qunatity" tab is selected
+messageClick : True if the "Message " tab is selected 
+
+addBookClickFunction: Resets all states so only the "Add New Book" tab is active.
+changeQuantityOfBooksClickFunction: Activates the "Change Quantity" tab by setting changeQuantityOfBooksClick to true.
+messagesClickFucntion: Activates the "Messages" tab by setting messagesClick to true
+checks if the login user has a usertype claims in their token 
+if not it redirect them to the /home page 
+
+h3 tag display the title  "MAnage Library".
+navigation bar : contains buttons representing different tabs 
+Add New Book , Change Quantity, Messages
+These buttons are part of a bootstrap tabs 
+Event handlers : onclcik attribute to trigger a function when clicked 
+addBookClickFunction: For adding a new book.
+changeQuantityOfBooksClickFunction: For changing the quantity of books.
+messagesClickFucntion: For accessing the messages.
+<AddNewBook/> : This is always displayed the "Add new BOok " tab is clciked 
+<ChangeQuantityOfBooks/>  : is true it shows the oomponent otherwise it shows an empty fragement <></>
+<AdminMessages/> Conditionally based on the state variable if messageClick is true it show the component MESSAGECLICK
+
+components ->  AddNewBooks.tsx
+
+
+
+
