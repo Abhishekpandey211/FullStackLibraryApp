@@ -2043,6 +2043,13 @@ stores the error message in httpError
 Scrolls the browser window to the top of the page.
 useEffect will run when authState, currentPage, or btnSubmit changes.
 
+checks if the isloadingmessages varible is true 
+This variable likely tracks whether the application is in the process of loading messages.
+If isLoadingMessages is true, the component immediately returns a loading spinner (SpinnerLoading component).
+ This checks if the httpError variable contains any error
+ If httpError has a value, it returns a <div> element styled with Bootstrap classes
+containing the error message.
+
 
 
 
