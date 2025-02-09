@@ -2051,6 +2051,24 @@ If isLoadingMessages is true, the component immediately returns a loading spinne
 containing the error message.
 
 
+Declares an async function named submitResponseToQuestion.
+This function takes two parameters: id and response.
+id: number — The identifier of a specific message.response: string — The admin's response to the message.
+Defines the API endpoint URL where the message update request will be sent.
+Checks if the user is authenticated and if the id and response are not empty.
+Creates an object called messageAdminRequestModel by calling the AdminMessageRequest class constructor with the given id and response.
+method: 'PUT': The request will update data on the server.
+headers: Provides metadata for the request:
+Authorization: Uses a Bearer token for secure access.
+'Content-Type': 'application/json': Indicates that the body contains JSON data.
+body: The JSON data to be sent in the request body.
+Sends the HTTP request using fetch() and waits for the server's response.
+Why await: Ensures the code waits for the response before moving forward.
+If the response is not OK (200-299), it throws an error with a generic
+If unsuccessful, throws an error with the message 'Something went wrong!'.
+state variable btnSubmit between true and false.
+
+
 
 
 
