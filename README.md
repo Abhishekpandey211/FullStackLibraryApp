@@ -2210,5 +2210,21 @@ export const ChangeQuantityOfBook: React.FC<{ book: BookModel, deleteBook: any}>
 
 explanation of this code -> 
 
+useEffect: A React hook that allows side effects (like fetching data) in functional components.
+useState: A hook to manage state within a component.
+BookModel: An imported model that represents a book's structure.
+useOktaAuth: A hook from Okta for authentication purposes to manage secure API requests
+
+Defines a React functional component ChangeQuantityOfBook.
+This component expects props containing:
+A book of type BookModel.
+A function deleteBook to delete the book.
+
+authState: Extracted from Okta for authentication token access.
+quantity: Holds the current book quantity (setQuantity updates it).
+remaining: Holds the number of available copies (setRemaining updates it).
+
+
+
 
 
