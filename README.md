@@ -2069,22 +2069,18 @@ If unsuccessful, throws an error with the message 'Something went wrong!'.
 state variable btnSubmit between true and false.
 
 
-
-
-
-
-
-  
-
-
-
-
-
-
-   
-
-    
-
-
-
-
+This defines a function paginate that takes a pageNumber as a parameter (of type number).
+It calls setCurrentPage(pageNumber), which updates the state variable currentPage to the given pageNumber.
+This returns JSX
+checking if the messages length is > 0 
+If there are messages, render a header (<h5>) that displays "Pending Q/A."
+This line loops through each message in the messages array using the map() function.
+For each message, it renders/display the AdminMessage component.
+message={message}: The current message object.
+key={message.id}: A unique key for efficient rendering.
+submitResponseToQuestion={submitResponseToQuestion}: A function for handling question responses.
+If there are more than one page (totalPages > 1), it renders the Pagination component.
+The Pagination component receives:
+currentPage: The current page state.
+totalPages: The total number of pages.
+paginate={paginate}: The function to handle page changes.
