@@ -664,6 +664,29 @@ setIsCheckedOut(true): Updates the state to indicate that the book has been chec
 This function is called when the user clicks the "Check out" button.
 
 
+This defines an asynchronous function named submitReview.
+It takes two parameters: starInput and reviewDescription.
+starInput: The number of stars the user wants to give the book.
+ reviewDescription: The description of the review the user wants to leave.
+Initializes a variable bookId of type number with an initial value of 0.
+If the book object has an id property, it assigns that value to bookId.
+Creates a new instance of the ReviewRequestModel class, passing in the starInput, book
+Id, and reviewDescription as arguments.
+The URL for the review endpoint is defined as a string variable named url.
+The request options are defined as an object with the following properties:
+method: 'POST': Specifies the HTTP method as POST for creating new data.
+headers: Defines the request headers
+Authorization : adds a bearer token from the users authenctication state
+'Content-Type': 'application/json': Indicates the request body (if any) will be
+in JSON format.
+body: JSON.stringify(reviewRequestModel): Converts the reviewRequestModel object
+into a JSON string and assigns it to the request body.
+const returnResponse = await fetch(url, requestOptions): Sends a request to the
+specified URL with the specified options.
+if (!returnResponse.ok): Checks if the response was successful (200-299). If
+not, it throws an error.
+setIsReviewLeft(true): Updates the state to indicate that a review has been left.
+
     
 
 
