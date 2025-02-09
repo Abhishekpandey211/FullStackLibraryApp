@@ -2355,6 +2355,32 @@ export const ChangeQuantityOfBooks = () => {
 
 explanation of this code -> 
 
+Hooks (useEffect, useState): Manage the component's lifecycle and state.
+BookModel Import: Defines the structure of book-related data.
+SpinnerLoading Import: Handles loading states visually with a spinner.
+Pagination Import: Manages page navigation for book listings.
+ChangeQuantityOfBook Import: Allows modifying book quantities.
+
+defines a react FC named changequantityofbooks
+it uses arrow function syntax, makin git reusable in other parts b/c of the export keyword
+This creates a state variable books and a function setbooks to update that state 
+The initial value of books is an empty array [].The state is expected to store an array of BookModel objects.
+This creates a state variable isLoading initialized to true.
+It likely indicates whether the book data is still being fetched.
+This defines a state variable httpError initialized to null.
+It's used to store any error information that may occur during an HTTP request.
+This defines a state variable currentPage, starting at 1.
+It is used to track the current page of book data for pagination.
+This defines a constant booksPerPage initialized to 5.
+It does not have a setter function because the value is fixed.
+The component likely displays 5 books per page.
+This initializes a state variable totalAmountOfBooks to 0.
+It will store the total number of books available.
+This initializes a state variable totalPages to 0.It tracks the total number of pages based on available books.
+This initializes a state variable bookDelete to false.
+It likely tracks whether a book has been successfully deleted.
+
+
 
 
 
