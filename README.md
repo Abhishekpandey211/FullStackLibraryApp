@@ -641,6 +641,17 @@ ${authState.accessToken?.accessToken}) to prove the user is authenticated.
   authstate represents the user authentication
   ischeked out for state variable indicate book has been checkout by user
 
+This if statement checks if any of the loading states (isLoading, isLoadingReview, etc.) is true.
+These variables likely come from component state (like useState
+If any of these states are true, it returns a SpinnerLoading component.
+This component is likely a custom component that displays a loading animation.
+ This if statement checks if there is an http error 
+httperror is a state variable it stores any error message form http request
+if httperror exists it display a error meassage inside a <div>
+bootstarp css  <div className='container m-5'> for layout margin
+inside p message is display inside a <p> with the error meassage 
+
+
 
 
 
