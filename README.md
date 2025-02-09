@@ -1538,5 +1538,198 @@ messagesClickFucntion: For accessing the messages.
 components ->  AddNewBooks.tsx
 
 
+import { useOktaAuth } from "@okta/okta-react";  
+import { useState } from "react";
+import AddBookRequest from "../../../models/AddBookRequest";
+
+export const AddNewBook = () => { // Defines the AddNewBook component.
+
+    const { authState } = useOktaAuth();
+
+    //Add New Book
+    const [title, setTitle] = useState('');
+    const [author, setAuthor] = useState('');
+    const [description, setDescription] = useState('');
+    const [copies, setCopies] = useState(0);
+    const [category, setCategory] = useState('Category');
+    const [selectedImage, setSelectedImage] = useState<any>(null);
+
+    // displays
+    const [displayWarning, setDisplayWarning] = useState(false);
+    const [displaySuccess, setDisplaySuccess] = useState(false);
+
+    
+    function categoryField(value: string){  
+        setCategory(value); 
+    }
+
+    async function base64ConversionForImages(e: any) {
+       if(e.target.files[0]){
+        getBase64(e.target.files[0]);
+       } 
+
+        }
+
+    function getBase64(file: any){
+        let reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = function () {
+            setSelectedImage(reader.result);
+        };
+        reader.onerror= function (error){
+            console.log('Error',error);
+        }
+    }
+
+    async function submitNewBook() {
+    const url = `http://localhost:8080/api/admin/secure/add/book`;
+    if(authState?.isAuthenticated && title !== '' && author !== '' && category !== 'Category'
+        && description !== '' && copies >= 0){
+            const book: AddBookRequest = new AddBookRequest(title, author, description, copies, category);
+            book.img = selectedImage;
+            const requestOptions = {
+                method: 'POST',
+                headers: {
+                    Authorization: `Bearer ${authState?.accessToken?.accessToken}`,
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(book)
+            };
+
+            const submitNewBookResponse = await fetch(url, requestOptions);
+            if(!submitNewBookResponse.ok){
+                throw new Error('Something went wrong!');
+            }
+            setTitle('');
+            setAuthor('');
+            setDescription('');
+            setCopies(0);
+            setCategory('Category');
+            setSelectedImage(null);
+            setDisplayWarning(false);
+            setDisplaySuccess(true);
+        } else {
+            setDisplayWarning(true);
+            setDisplaySuccess(false);
+        }
+   }
+
+   return(
+        <div className="container mt-5 mb-5">
+            {displaySuccess && 
+               <div className="alert alert-success" role="alert">
+                  Book Added Successfully
+               </div>
+            }
+            {displayWarning && 
+               <div className="alert alert-danger" role="alert">
+                All fields must be filled out 
+               </div>
+             }
+             <div className="card">
+                <div className="card-header">
+                    Add a new Book
+                </div>
+                <div className="card-body">
+                    <form method="POST">
+                        <div className="row">
+                            <div className="col-md-6 mb-3">
+                                <label className="form-label">Title</label>
+                                <input type="text" className="form-control" name="title" required
+                                    onChange={e => setTitle(e.target.value)} value={title}/>
+                            </div>
+                            <div className="col-md-3 mb-3">
+                               <label className="form-label">Author</label>
+                               <input type="test" className="form-control" name="author" required
+                                   onChange={e => setAuthor(e.target.value)} value={author}/>
+                            </div>
+                            <div className="col-md-3 mb-3">
+                                <label className="form-label">Category</label>
+                                <button className="form-control btn btn-secondary dropdown-toggle" type="button"
+                                  id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                                    {category}
+                                  </button>
+                                  <ul id="addNewBookId" className="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                    <li><a onClick={() => categoryField('FE')} className="dropdown-item">Front End</a></li>
+                                    <li><a onClick={() => categoryField('BE')} className="dropdown-item">Back End</a></li>
+                                    <li><a onClick={() => categoryField('Data')} className="dropdown-item">Data</a></li>
+                                    <li><a onClick={() => categoryField('DevOps')} className="dropdown-item">DevOps</a></li>
+                                  </ul>
+                            </div>
+                        </div>
+                        <div className="col-md-12 mb-3">
+                            <label className="form-label">Description</label>
+                            <textarea className="form-control" id="exampleFormControlTextarea1" rows={3}
+                               onChange={e => setDescription(e.target.value)} value={description}></textarea>
+                        </div>
+                        <div className="col-md-3 mb-3">
+                            <label className="form-label">Copies</label>
+                            <input type="number" className="form-control" name="Copies" required
+                               onChange={e => setCopies(Number(e.target.value))} value={copies}/>
+                        </div>
+                        <input type="file" onChange={e => base64ConversionForImages(e)}/>
+                        <div>
+                            <button type="button" className="btn btn-primary mt-3" onClick={submitNewBook}>
+                                Add Book
+                            </button>
+                        </div>
+                    </form>
+                </div>
+             </div>
+        </div>
+    );
+}
+
+
+explanation of the code ->
+
+useOktaAuth: Hook from Okta React SDK to manage user authentication.
+useState: React hook to manage component state.
+AddBookRequest: A custom model for book data structure.
+Defines the AddNewBook component.
+authState: Holds the authentication status and access token from Okta.
+title, author, description, copies, category, and selectedImage: State variables for form input values.
+displayWarning and displaySuccess: Control success/warning message displays.
+A function named categoryField is declared.
+It takes one argument value, which must be a string
+This line calls a function named setCategory, passing the value as an argument.
+base64ConversionForImages  passes with event parameter 
+base64ConversionForImages  : -  Converting an image to Base64 is useful when: ->  You want to store or transfer image data as a string.
+console.log(e);
+this functionn accept getbase 64 accept a parameter called file
+getBase64 function is used to convert the selected image to base64 format
+this creates a new filereader object filereader is used to read file content and convert it into different fromats (like base 64)
+this tells the reader to read the file as a dataurl 
+ when file successfully read the onload event 
+reader.result contains the base 64 string of the file 
+setSelectedImage(reader.result); stores the base64 string in a state or varible (assuming setSelectedImage is a React state setter function).
+asynchronous function submitNewBook.async keyword allows the use of await inside the function to handle asynchronus function 
+Defines the API endpoint URL where the book data will be sent via a POST request.
+check if the user is authenticated Title, author, description fields are not empty, and the category isn't set to its default placeholder ('Category').
+Copies count is a non-negative number (copies >= 0).
+Creates a new instance of the AddBookRequest class using user-provided data (title, author, etc.).
+Sets an optional img property to store the selected image.
+Defines the request options for the API call:
+ method: 'POST' specifies the HTTP method.
+headers includes:
+Authorization: Adds a Bearer token for secure access.
+ Content-Type: Indicates that the request body is in JSON format.
+body: Contains the serialized book data as a JSON string.
+Sends the request to the API and waits (await) for the response.
+Checks if the request was unsuccessful.If so, throws an error with the message 'Something went wrong!'.
+Clears all form fields (title, author, etc.).Hides the warning message and displays the success message.
+If any validation condition fails, it shows a warning message (setDisplayWarning(true)) and hides the success message.
+  
+
+
+
+
+
+
+   
+
+    
+
+
 
 
