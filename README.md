@@ -1811,6 +1811,83 @@ Sends the request to the API and waits (await) for the response.
 Checks if the request was unsuccessful.If so, throws an error with the message 'Something went wrong!'.
 Clears all form fields (title, author, etc.).Hides the warning message and displays the success message.
 If any validation condition fails, it shows a warning message (setDisplayWarning(true)) and hides the success message.
+
+AdminMessage.tsx->
+
+import { useState } from "react";
+import MessageModel from "../../../models/MessageModel";
+
+export const AdminMessage: React.FC<{ message: MessageModel, 
+    submitResponseToQuestion: any }> = (props, key) => {
+
+    const [displayWarning, setDisplayWarning] = useState(false);
+    const [response, setResponse] = useState('');
+
+    function submitBtn() {
+        if (props.message.id !== null && response !== '') {
+            props.submitResponseToQuestion(props.message.id, response);
+            setDisplayWarning(false);
+        } else {
+            setDisplayWarning(true);
+        }
+    }
+
+    return (
+        <div key={props.message.id}>
+            <div className='card mt-2 shadow p-3 bg-body rounded'>
+                <h5>Case #{props.message.id}: {props.message.title}</h5>
+                <h6>{props.message.userEmail}</h6>
+                <p>{props.message.question}</p>
+                <hr/>
+                <div>
+                    <h5>Response: </h5>
+                    <form action="PUT">
+                        {displayWarning && 
+                            <div className='alert alert-danger' role='alert'>
+                                All fields must be filled out.
+                            </div>
+                        }
+                        <div className='col-md-12 mb-3'>
+                            <label className='form-label'> Description </label>
+                            <textarea className='form-control' id='exampleFormControlTextarea1' rows={3} 
+                                onChange={e => setResponse(e.target.value)} value={response}></textarea>
+                        </div>
+                        <div>
+                            <button type='button' className='btn btn-primary mt-3' onClick={submitBtn}>
+                                Submit Response
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    );
+}
+
+explanation of this code -> 
+
+useState is imported from React to manage component state.
+MessageModel is imported from a local file, likely defining the structure of message data.
+declares a functional components AdminMessage using typescript type annotation 
+message: MessageModel: A message object of type MessageModel.
+submitResponseToQuestion: any: A function to handle the response submission (typed as any for flexibility).
+props holds these passed properties.
+displayWarning: Manages whether a warning message should be displayed (false by default).
+response: Holds the value of the user’s response ('' initially).
+submit button handler clicks the submit button
+if the message has an id and the response is not null / empty
+it calls the submitResponseToQuestion function with the message id and response
+Hides the warning message.
+Otherwise, displays the warning message by setting displayWarning to true.
+the message card inside a div, using props.message.id as a unique key.
+Defines a card layout for the message display using Bootstrap classes.
+Displays the message title, user email, and question.
+A horizontal line is added to separate the message from the response section.
+The response section includes a form with a textarea for the user to input their response.
+The form includes a submit button to submit the response.
+
+
+
   
 
 
