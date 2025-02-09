@@ -2224,6 +2224,31 @@ authState: Extracted from Okta for authentication token access.
 quantity: Holds the current book quantity (setQuantity updates it).
 remaining: Holds the number of available copies (setRemaining updates it).
 
+fetchBookInState: A function to initialize quantity and remaining state based on the book's properties (copies and copiesAvailable). Defaults to 0 if the properties are missing.
+
+Constructs a PUT request to increase the book quantity using the book's ID.
+Authorization: Adds a Bearer token from authState for secure access.
+
+Sends the request and checks if it was successful.
+If not successful, throws an error.
+Updates both quantity and remaining by incrementing their values.
+Constructs a PUT request to decrease the book quantity using the book's ID.
+Authorization: Adds a Bearer token from authState for secure access.
+
+Sends the request and checks if it was successful.
+If not successful, throws an error.
+Updates both quantity and remaining by decrementing their values.
+
+Constructs a DELETE request to remove the book.
+Sends the request and checks for success.
+Calls props.deleteBook() to inform the parent component that the book has been deleted.
+
+
+    
+        
+
+
+
 
 
 
