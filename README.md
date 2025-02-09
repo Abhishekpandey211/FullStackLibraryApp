@@ -2001,6 +2001,31 @@ export const AdminMessages = () => {
 
 explanation of this code -> 
 
+useOktaAuth hook from the @okta/okta-react package, which is used to handle authentication-
+related tasks, such as checking the user's authentication status and logging out.
+useEffect allows you to run code at specific points in a component’s lifecycle 
+useState is used to create and manage state variables in a functional component.
+AdminMessageRequest might define the structure for sending requests to an API for admin messages.
+MessageModel could represent the structure of a message, like its content, sender, or timestamp
+Pagination: A utility component for dividing large datasets into pages and navigating between them.
+SpinnerLoading: Likely a component for showing a loading spinner during data fetch operations.
+AdminMessage: A custom component to display individual admin messages.
+
+This line defines and exports a React functional component called AdminMessages
+This line uses the useOktaAuth hook from the Okta library to get the user's authentication state. The authState object contains information about whether the user is authenticated.
+this initailize a state variable isloadingmeassages with the value true indicates that messages is loaded 
+setisloading is the function used to update this state 
+httpError with the value null 
+sethttperror upadtes this error state 
+message initialized an empthy array the type messagesmodel[] objects
+setmessages update this state with the fetched messages
+messagesperpage is set to 5, which likely defines how many ,essages to display per page
+currentpage with the value 1 representing the current page number in pagination
+setcurrent page updates this state.
+totalpages with the value 0 representing the total number of pages avalialble for the ,essahes
+settotalpage updates this state 
+
+
 
 
 
