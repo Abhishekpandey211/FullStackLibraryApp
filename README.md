@@ -621,6 +621,26 @@ Updates the state with the fetched loan count.
   authstate represents the user authentication
  ischeked out for state variable indicate book has been checkout by user 
 
+ USE EFFECT FOR FETCH USER CHECKED OUT BOOK
+
+const fetchUserCurrentLoansCount = async () => it declares an asynchronous function named fetchusercheckoutbook
+if (authState && authState.isAuthenticated) it checks if the user is authenticated or not
+Sets the API URL where the loan count information is fetched
+defines a request options for the fetch call
+method get : Http method used to retrieve data from the server
+${authState.accessToken?.accessToken}) to prove the user is authenticated.
+'Content-Type': 'application/json' to indicate the type of data expected.
+ Makes the API request using fetch and waits for the response
+ Checks if the response is not successful (ok is false).Throws an error if something went
+ Converts the response to JSON format.
+   Updates the state with the fetched loan count.
+  Stops the loading state once the request completes.
+   If the API request or the function throws an error, it is caught here.
+  Stops the loading state even if there’s an error.
+  sets the error message in the state
+  authstate represents the user authentication
+  ischeked out for state variable indicate book has been checkout by user
+
 
 
 
