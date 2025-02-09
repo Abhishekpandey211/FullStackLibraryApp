@@ -2025,6 +2025,25 @@ setcurrent page updates this state.
 totalpages with the value 0 representing the total number of pages avalialble for the ,essahes
 settotalpage updates this state 
 
+Defines an asynchronous function named fetchUserMessages to fetch user messages from the backend.
+Ensures that the user is authenticated by checking authState and authState.isAuthenticated before fetching data.
+Constructs the API URL dynamically based on the current page and number of messages per page.
+Defines requestOptions for the API request:
+Uses the GET method.
+ Sets Authorization with a Bearer token (from authState.accessToken) to authenticate the request.
+Specifies the content type as JSON.
+Sends an asynchronous fetch request to the given URL with the defined requestOptions.
+Checks if the response status is not OK (non-2xx status).Throws an error if something went wrong.
+Converts the response data to JSON format and stores it in messagesResponseJson.
+Updates the messages state with the fetched messages.
+Updates the total pages state with the total number of pages available for the messages.
+Sets isLoadingMessages to false to indicate that the messages are loaded.
+Catches any errors that occur during the fetch request and sets isLoadingMessages to false.
+stores the error message in httpError
+Scrolls the browser window to the top of the page.
+useEffect will run when authState, currentPage, or btnSubmit changes.
+
+
 
 
 
