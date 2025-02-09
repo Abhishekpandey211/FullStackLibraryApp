@@ -652,6 +652,23 @@ bootstarp css  <div className='container m-5'> for layout margin
 inside p message is display inside a <p> with the error meassage 
 
 
+This synchroous function is used to check out a book.
+url stores the endpoint of your backend API where the book checkout request is sent.
+method: 'PUT': Specifies the HTTP method as PUT for updating data. headers: Defines the request headers
+Authorization : adds a bearer token from the users authenctication state 
+ Content-Type': 'application/json': Indicates the request body (if any) will be in JSON format.
+fetch(url, requestOptions): Sends a request to the specified URL with the specified options.
+ if (!checkoutResponse.ok): Checks if the response was successful (200-299). If
+not, it throws an error.
+setIsCheckedOut(true): Updates the state to indicate that the book has been checked out.
+This function is called when the user clicks the "Check out" button.
+
+
+    
+
+
+
+
 
 
 
