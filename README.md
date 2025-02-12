@@ -2546,6 +2546,62 @@ export const Messages = () => {
 explanation of this code -> 
 
 
+useoktaAuth : Hook it is used for okta authentication state and user information 
+useeffect is used to perform side effects for fetching data
+usestate is used to store state variable
+MessagesModel : represents the structure of a messages. 
+SpinnerLoading : a loading spinner components shown while fteching data 
+pagination : components used to navigate b/w pages of messages 
+
+declares a FC named messages
+authState: Retrieves authentication state from Okta.
+isLoadingMessage: Boolean flag for tracking if messages are loading (true initially).
+httpError: Stores an error message if fetching data fails.
+
+messages: Stores an array of messages retrieved from the backend.
+messagesPerPage: Number of messages displayed per page (set to 5).
+currentPage: Tracks the current page number (starts from 1).
+totalPages: Stores the total number of pages.
+
+useEffect runs when authState or currentPage changes.
+fetchUserMessages is an async function that fetches user messages only if authenticated.
+
+ url : api endpoint to fetch messages 
+requestOptions: Defines the HTTP request:
+Authorization header includes the user's JWT access token.
+Content-Type ensures JSON format.
+
+Sends the GET request to fetch messages.
+If the response is not OK (!messagesResponse.ok), an error is thrown.
+Converts the response to JSON.
+Extracts messages (messagesResponseJson._embedded.messages) and stores them in messages.
+Updates totalPages for pagination.
+
+stops loading after data is fetched 
+Calls fetchUserMessages(), handling errors using .catch().
+If an error occurs, it stops loading and stores the error in httpError.
+scrolls the page to the top whenever messages are reloaded 
+displays a loading spinner while fetching data
+if there is an error , it displays the error messages inside a styled container 
+Function updates currentPage when a page is selected.
+
+
+If messages exist, it displays:
+Heading "Current Q/A".
+Each message as a card:
+Case ID & Title.
+User's email.
+Question content.
+
+
+if an admin has responded, it displays:
+Admin’s email.
+Response text.
+Otherwise, it shows "Pending response from administration.
+If no messages exist, it shows "All questions you submit will be shown here".
+If there’s more than 1 page, it renders the Pagination component.
+Passes currentPage, totalPages, and the paginate function.
+
 
 
 
