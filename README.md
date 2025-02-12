@@ -2727,6 +2727,81 @@ Displays the success message.
 If fields are empty or the user is not authenticated, a warning message is shown.
 
 
+NavBar And Footer -> Footer.tsx
+
+
+import { Link } from "react-router-dom";
+
+export const Footer = () => {
+    return(
+        <div className="main-color">
+            <footer className="container d-flex flex-wrap
+            justify-content-between align-items-center py-5 main-color">
+                <p className="col-md-4 mb-0 text-white ">@ Example Library App. Inc</p>
+                <ul className="nav navbar-dark col-md-4 justify-content-end">
+                    <li className="nav-item">
+                        <Link to="/home" className="nav-link px-2 text-white">
+                            Home
+                        </Link>
+                    </li>
+                    <li className="nav-item">
+                        <Link to="/search" className="nav-link px-2 text-white">
+                            Search Books
+                        </Link>
+                    </li>
+                </ul>
+            </footer>
+        </div>
+
+    );
+}
+
+explanation of this code -> 
+
+Link : components which is used for client-sode navigation 
+Link is used to navigate between routes in a react application
+Defines a functional component named Footer using an arrow function.
+This component will return JSX to render the footer section of the application.
+<div className="main-color">:
+This is a wrapper <div> with a CSS class main-color, which will apply specific styles (like background color).
+
+
+<footer>: This is the HTML footer element that represents the footer section of the web page.
+className="container d-flex flex-wrap justify-content-between align-items-center py-5 main-color":
+container: Bootstrap class to contain and center elements.
+d-flex: Enables Flexbox layout for flexible positioning.
+flex-wrap: Allows the child elements to wrap onto the next line if needed.
+justify-content-between: Spaces items apart with equal distribution.
+align-items-center: Aligns items vertically to the center.
+py-5: Bootstrap class that adds padding (py) of 5 units to top and bottom.
+main-color: A custom CSS class (likely defined in an external stylesheet) for color styling. 
+    
+<p>: This is a paragraph element displaying the company name.
+className="col-md-4 mb-0 text-white":
+col-md-4: In Bootstrap grid system, this makes the paragraph take 4 out of 12 columns on medium+ screens.
+mb-0: Sets margin-bottom to 0, preventing extra spacing.
+text-white: Sets the text color to white.
+
+<ul>: Unordered list used to hold navigation links.
+className="nav navbar-dark col-md-4 justify-content-end":
+nav: Bootstrap class for navigation menus.
+navbar-dark: Styles the navigation for a dark background.
+col-md-4: Uses 4 out of 12 columns for the list on medium+ screens.
+justify-content-end: Aligns the links to the right side.
+
+<li className="nav-item">: Creates a list item for the navigation link.
+<Link to="/home" className="nav-link px-2 text-white">:
+to="/home": When clicked, it navigates the user to the "/home" route.
+className="nav-link px-2 text-white":
+nav-link: Bootstrap class for navigation styling.
+px-2: Adds horizontal padding.
+text-white: Makes the text white.
+
+Similar to the Home link, but it navigates to the "/search" page where users can search for books.
+</ul>: Closes the navigation list.
+</footer>: Closes the footer.
+</div>: Closes the wrapper <div>.
+
 
 
 
