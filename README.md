@@ -2867,6 +2867,59 @@ export const Navbar = () => {
 explanation of this code -> 
 
 
+Link and NavLink from react-router-dom:
+Link is used for navigation without reloading the page.
+NavLink is similar but adds an active class when the link is active.
+
+useOktaAuth from @okta/okta-react:
+A hook that provides authentication state (authState) and authentication functions (oktaAuth).
+SpinnerLoading:
+A loading spinner component displayed while authentication state is loading.
+
+This defines the Navbar functional component.
+
+This destructures oktaAuth and authState from useOktaAuth().
+oktaAuth: An instance that allows signing in and out.
+authState: Stores user authentication status (e.g., logged in, logged out).
+
+
+If authState is null (still loading), a loading spinner is displayed.
+This prevents rendering the navbar until authentication status is determined.
+
+This function logs out the user using oktaAuth.signOut().
+It's called when the user clicks the logout button.
+
+Logs the authState object in the console for debugging.
+
+navbar-expand-lg: Expands on large screens.
+navbar-dark: Dark theme.
+main-color py-3: Custom styles (likely from Bootstrap or a custom CSS file).
+
+container-fluid: Makes navbar full width.
+navbar-brand: Displays the app name ("Luv2code").
+This button appears in mobile view to toggle the menu.
+data-bs-toggle='collapse': Allows collapsing the menu.
+data-bs-target='#navbarNavDropdown': Targets the menu div.
+
+collapse navbar-collapse: Allows menu collapsing.
+id='navbarNavDropdown': Matches the button’s data-bs-target.
+<ul className='navbar-nav'>: Defines a list of navigation links.
+
+These links navigate to /home and /search pages.
+If the user is authenticated, the "Shelf" link appears.
+This checks:
+authState.isAuthenticated: User is logged in.
+authState.accessToken?.claims?.userType === 'admin': User is an admin.
+If both are true, the Admin link appears.
+
+ms-auto: Aligns items to the right.
+If the user is not authenticated, show a Sign In button.
+
+If the user is authenticated, show a Logout button.
+Clicking it triggers handleLogout(), logging the user out.
+Closes the divs and nav tag.
+
+
 
 
 
