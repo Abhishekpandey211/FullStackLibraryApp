@@ -2380,6 +2380,70 @@ This initializes a state variable totalPages to 0.It tracks the total number of 
 This initializes a state variable bookDelete to false.
 It likely tracks whether a book has been successfully deleted.
 
+MessagesPage -> MessagesPage.tsx
+
+
+import { useState } from 'react';
+import { Messages } from './components/Messages';
+import { PostNewMessage } from './components/PostNewMessage';
+
+export const MessagesPage = () => {
+    
+    const [messagesClick, setMessagesClick] = useState(false);
+    
+    return (
+        <div className='container'>
+            <div className='mt-3 mb-2'>
+                <nav>
+                    <div className='nav nav-tabs' id='nav-tab' role='tablist'>
+                        <button onClick={() => setMessagesClick(false)} className='nav-link active' 
+                            id='nav-send-message-tab' data-bs-toggle='tab' data-bs-target='#nav-send-message' 
+                            type='button' role='tab' aria-controls='nav-send-message' aria-selected='true'>
+                                Submit Question
+                        </button>
+                        <button onClick={() => setMessagesClick(true)} className='nav-link' 
+                            id='nav-message-tab' data-bs-toggle='tab' data-bs-target='#nav-message' 
+                            type='button' role='tab' aria-controls='nav-message' aria-selected='false'>
+                                Q/A Response/Pending
+                        </button>
+                    </div>
+                </nav>
+                <div className='tab-content' id='nav-tabContent'>
+                    <div className='tab-pane fade show active' id='nav-send-message' role='tabpanel' 
+                        aria-labelledby='nav-send-message-tab'>
+                           <PostNewMessage/>
+                    </div>
+                    <div className='tab-pane fade' id='nav-message' role='tabpanel' aria-labelledby='nav-message-tab'>
+                        {messagesClick ? <Messages/> : <></>}
+                    </div>
+                </div>
+            </div>
+        </div>
+    );
+}
+
+explanation of this code -> 
+
+useState is imported from React, which is used for managing state in functional components.
+Messages and PostNewMessage are imported from the ./components/ directory, which means they are separate components used inside MessagesPage.
+This defines and exports a functional component named MessagesPage.
+state variable messagesclick is declared using the usestate hook 
+initial state is false 
+setmessagesclick is a function used to update the value of messagesclick
+return jsx structure 
+submit question tab 
+q/a response pending tab 
+there are two tabs submit question 
+Q/a pending response  
+State Handling (messagesClick):
+When "Submit Question" is clicked → messagesClick is set to false.
+When "Q/A Response/Pending" is clicked → messagesClick is set to true.
+If messagesClick === false → The "Submit Question" tab displays <PostNewMessage/>.
+If messagesClick === true → The "Q/A Response/Pending" tab displays <Messages/>.
+
+
+
+
 
 
 
