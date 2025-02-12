@@ -2691,6 +2691,40 @@ export const PostNewMessage = () => {
 
 explanation of this code -> 
 
+useOktaAuth: This is a React hook from Okta's authentication library that provides authentication state and methods.
+useState: This is a React Hook used for managing state variables inside functional components.
+MessageModel: This is an imported class (presumably) that models the message data structure.
+
+Declares a functional component named PostNewMessage.
+authState from useOktaAuth() which contains information about whether the user is authenticated and their access token.
+
+title & setTitle: Stores the title of the question.
+question & setQuestion: Stores the actual question.
+displayWarning & setDisplayWarning: Controls the visibility of the warning message (if inputs are empty).
+displaySuccess & setDisplaySuccess: Controls the visibility of the success message (if the question is submitted successfully).
+
+Declares an async function that sends the user’s question to the backend.
+
+Defines the API endpoint where the new message will be sent.
+Checks if the user is logged in (authState?.isAuthenticated).
+Checks if the title and question are not empty.
+Creates an instance of MessageModel, presumably a class that represents the question structure.
+
+Defines the HTTP request options:
+method: 'POST' → Sends data to the server.
+headers:
+Authorization: Sends a Bearer token for authentication.
+Content-Type: Specifies that the request body contains JSON.
+body: Converts messageRequestModel into JSON format.
+
+Sends the request to the API using fetch().
+Checks if the response is not OK, and if so, throws an error.
+
+Clears the title and question inputs.
+Hides the warning message.
+Displays the success message.
+
+If fields are empty or the user is not authenticated, a warning message is shown.
 
 
 
